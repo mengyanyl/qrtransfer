@@ -4,13 +4,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes;
+  System.Classes, System.NetEncoding;
 
 type
   TQrMsg = Record
     position: Integer;
     len: Integer;
-    data: array [0 .. 1024] of Byte;
+    data: array [0 .. 1024] of Char;
   End;
 
   PTQrMsg = ^TQrMsg;
@@ -18,12 +18,21 @@ type
 
   TQrMsgManager = class
   private
+    FBase64: TBase64Encoding;
     FFileBuffer: TArray<Byte>;
+    FStrings: TStringList;
+    FString: string;
+
     function GetFileSize(aFile: String): Integer;
   public
     constructor Create;
     destructor Destroy;
-    function LoadFromFile(aFile: string; aPageSize: Integer = 1024): TList;
+    procedure LoadFileToBuffer(aFile: string);
+    function LoadFromFile(aFile: string; aPageSize: Integer = 1024)
+      : TList; overload;
+    function LoadFromFile(aPageSize: Integer = 1024): TList; overload;
+    property Strings: TStringList read FStrings;
+    property Text: string read FString;
   end;
 
 implementation
@@ -33,12 +42,17 @@ implementation
 constructor TQrMsgManager.Create;
 begin
   FFileBuffer := nil;
+  FString := '';
+  FStrings := TStringList.Create;
+  FBase64 := TBase64Encoding.Create();
 end;
 
 destructor TQrMsgManager.Destroy;
 begin
   if FFileBuffer <> nil then
-    FreeMem(@FFileBuffer[0]);
+    FFileBuffer := nil;
+  FreeAndNil(FBase64);
+  FreeAndNil(FStrings);
 end;
 
 function TQrMsgManager.GetFileSize(aFile: String): Integer;
@@ -51,6 +65,60 @@ begin
   finally
     FileClose(fh);
   end;
+end;
+
+procedure TQrMsgManager.LoadFileToBuffer(aFile: string);
+var
+  fileStream: TFileStream;
+  reader: TStreamReader;
+  buf, tmpbuf: TArray<Byte>;
+  fileLen, len: Integer;
+  str: string;
+  I, offset: Integer;
+begin
+  if not FileExists(aFile) then
+    Exit;
+
+  fileLen := GetFileSize(aFile);
+
+  FString := '';
+  FStrings.Clear;
+
+  fileStream := TFileStream.Create(aFile, fmOpenRead);
+  fileStream.position := 0;
+  try
+    while fileStream.position < fileLen do
+    begin
+      SetLength(buf, 1024);
+      ZeroMemory(@buf[0], 1024);
+      len := fileStream.Read(buf, 1024);
+      if (len < 1024) then // 说明读到最后了
+      begin
+        SetLength(tmpbuf, 1024);
+        ZeroMemory(@tmpbuf[0], len);
+        CopyMemory(@tmpbuf[0], @buf[0], len);
+        str := FBase64.EncodeBytesToString(tmpbuf);
+      end
+      else
+      begin
+        str := FBase64.EncodeBytesToString(buf);
+      end;
+      // FStrings.Add(str);
+      FString := FString + str;
+    end;
+  finally
+    fileStream.Free;
+  end;
+
+  // for I := 0 to FStrings.Count-1 do begin
+  // FString := FString + FStrings[I]
+  // end;
+end;
+
+function TQrMsgManager.LoadFromFile(aPageSize: Integer): TList;
+var
+  buf: TArray<Char>;
+begin
 end;
 
 function TQrMsgManager.LoadFromFile(aFile: string;
@@ -68,8 +136,6 @@ begin
   Result := TList.Create;
   offset := 0;
   fileLen := GetFileSize(aFile);
-  SetLength(FFileBuffer, fileLen + 1);
-  ZeroMemory(FFileBuffer, fileLen + 1);
 
   if (fileLen < aPageSize) then
   begin
@@ -92,7 +158,7 @@ begin
     fileStream := TFileStream.Create(aFile, fmOpenRead);
     fileStream.position := 0;
     try
-      while fileStream.Position<fileLen do
+      while fileStream.position < fileLen do
       begin
         SetLength(buf, aPageSize + 1);
         ZeroMemory(@buf[0], aPageSize + 1);

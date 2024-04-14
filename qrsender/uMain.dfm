@@ -23,6 +23,12 @@ object Form1: TForm1
     Width = 169
     Height = 169
   end
+  object SpeedButton2: TSpeedButton
+    Left = 576
+    Top = 368
+    Width = 23
+    Height = 22
+  end
   object btnOpen: TButton
     Left = 688
     Top = 279
@@ -47,7 +53,36 @@ object Form1: TForm1
     Height = 258
     Lines.Strings = (
       'Memo1')
+    ScrollBars = ssBoth
     TabOrder = 2
+  end
+  object Button1: TButton
+    Left = 696
+    Top = 416
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 3
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 616
+    Top = 456
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 4
+    OnClick = Button2Click
+  end
+  object Memo2: TMemo
+    Left = 456
+    Top = 24
+    Width = 329
+    Height = 233
+    Lines.Strings = (
+      'Memo2')
+    ScrollBars = ssBoth
+    TabOrder = 5
   end
   object OpenDialog1: TOpenDialog
     Left = 768

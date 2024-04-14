@@ -2,9 +2,9 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2024/04/14 10:15:13.000.793,=D:\work\delphiProject\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 10:15:38.000.245,D:\work\delphiProject\ccb\qrtransfer\qrsender\uMain.pas=D:\work\delphiProject\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 10:15:38.000.245,D:\work\delphiProject\ccb\qrtransfer\qrsender\uMain.dfm=D:\work\delphiProject\Unit1.dfm</Transaction>
-    <Transaction>2024/04/14 10:15:50.000.939,D:\work\delphiProject\ccb\qrtransfer\qrsender\prjQrsender.dproj=D:\work\delphiProject\Project1.dproj</Transaction>
+    <Transaction>2024/04/14 10:15:38.000.245,D:\work\delphiProject\Unit1.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\uMain.pas</Transaction>
+    <Transaction>2024/04/14 10:15:38.000.245,D:\work\delphiProject\Unit1.dfm=D:\work\delphiProject\ccb\qrtransfer\qrsender\uMain.dfm</Transaction>
+    <Transaction>2024/04/14 10:15:50.000.939,D:\work\delphiProject\Project1.dproj=D:\work\delphiProject\ccb\qrtransfer\qrsender\prjQrsender.dproj</Transaction>
     <Transaction>2024/04/14 10:25:04.000.338,=D:\work\delphiProject\ccb\DelphiZXingQRCode\Source\DelphiZXIngQRCode.pas</Transaction>
     <Transaction>2024/04/14 10:36:52.000.602,D:\work\delphiProject\ccb\DelphiZXingQRCode\Source\DelphiZXIngQRCode.pas=</Transaction>
     <Transaction>2024/04/14 10:45:52.000.163,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\default.txaPackage</Transaction>
@@ -13,24 +13,24 @@
     <Transaction>2024/04/14 10:46:28.000.420,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\prjQrsender\default.txvpck</Transaction>
     <Transaction>2024/04/14 10:46:33.000.501,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\prjQrsender\default.txaPackage</Transaction>
     <Transaction>2024/04/14 11:07:34.000.271,=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 11:07:46.000.439,D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrManager.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
+    <Transaction>2024/04/14 11:07:46.000.439,D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrManager.pas</Transaction>
     <Transaction>2024/04/14 11:07:49.000.263,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrManager\default.txvpck</Transaction>
     <Transaction>2024/04/14 11:07:49.000.310,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrManager\default.txaPackage</Transaction>
     <Transaction>2024/04/14 11:10:45.000.506,=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 11:10:58.000.152,D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrMsgManager.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 11:13:26.000.525,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrMsgManager\default.txaPackage</Transaction>
+    <Transaction>2024/04/14 11:10:58.000.152,D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrMsgManager.pas</Transaction>
     <Transaction>2024/04/14 11:13:26.000.425,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrMsgManager\default.txvpck</Transaction>
+    <Transaction>2024/04/14 11:13:26.000.525,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrMsgManager\default.txaPackage</Transaction>
     <Transaction>2024/04/14 11:17:18.000.779,D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrManager.pas=</Transaction>
-    <Transaction>2024/04/14 11:17:18.000.866,D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrManager\default.txaPackage=</Transaction>
     <Transaction>2024/04/14 11:17:18.000.843,d:\work\delphiproject\ccb\qrtransfer\qrsender\modelsupport_prjqrsender\uqrmanager\default.txvpck=</Transaction>
-    <Transaction>2024/04/14 11:17:27.000.920,d:\work\delphiproject\ccb\qrtransfer\qrsender\modelsupport_prjqrsender\uqrmsgmanager\default.txvpck=</Transaction>
+    <Transaction>2024/04/14 11:17:18.000.866,D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrManager\default.txaPackage=</Transaction>
     <Transaction>2024/04/14 11:17:27.000.935,D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrMsgManager\default.txaPackage=</Transaction>
+    <Transaction>2024/04/14 11:17:27.000.920,d:\work\delphiproject\ccb\qrtransfer\qrsender\modelsupport_prjqrsender\uqrmsgmanager\default.txvpck=</Transaction>
     <Transaction>2024/04/14 11:17:27.000.893,D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrMsgManager.pas=</Transaction>
     <Transaction>2024/04/14 11:18:11.000.629,=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 11:18:21.000.692,D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrManager.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 11:19:24.000.759,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrManager\default.txaPackage</Transaction>
+    <Transaction>2024/04/14 11:18:21.000.692,D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrManager.pas</Transaction>
     <Transaction>2024/04/14 11:19:24.000.730,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrManager\default.txvpck</Transaction>
+    <Transaction>2024/04/14 11:19:24.000.759,=D:\work\delphiProject\ccb\qrtransfer\qrsender\ModelSupport_prjQrsender\uQrManager\default.txaPackage</Transaction>
     <Transaction>2024/04/14 11:28:11.000.243,=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
-    <Transaction>2024/04/14 11:28:20.000.924,D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrMsgManager.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas</Transaction>
+    <Transaction>2024/04/14 11:28:20.000.924,D:\work\delphiProject\ccb\qrtransfer\qrsender\Unit1.pas=D:\work\delphiProject\ccb\qrtransfer\qrsender\uQrMsgManager.pas</Transaction>
   </Transactions>
 </BorlandProject>
