@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<TgConfig Version="3" SubLevelDisabled="False">
+  <Option Name="namespaceFolder.prjQrsender" Type="System.String" Value="prjQrsender" Category="General" IsBrowsable="False" />
+  <Option Name="namespaceFolder.uMain" Type="System.String" Value="" Category="General" IsBrowsable="False" />
+  <Option Name="namespaceFolder.uQrManager" Type="System.String" Value="" Category="General" IsBrowsable="False" />
+  <Option Name="namespaceFolder.uQrMsgManager" Type="System.String" Value="" Category="General" IsBrowsable="False" />
+</TgConfig>
