@@ -10,7 +10,7 @@ type
   TQrMsg = Record
     position: Integer;
     len: Integer;
-    data: TArray<Char>;
+    data: array [0 .. 1024] of Byte;
   End;
 
   PTQrMsg = ^TQrMsg;
@@ -18,15 +18,28 @@ type
 
   TQrMsgManager = class
   private
-    FFileBuffer: TArray<Char>;
+    FFileBuffer: TArray<Byte>;
     function GetFileSize(aFile: String): Integer;
   public
+    constructor Create;
+    destructor Destroy;
     function LoadFromFile(aFile: string; aPageSize: Integer = 1024): TList;
   end;
 
 implementation
 
 { TQrMsgManager }
+
+constructor TQrMsgManager.Create;
+begin
+  FFileBuffer := nil;
+end;
+
+destructor TQrMsgManager.Destroy;
+begin
+  if FFileBuffer <> nil then
+    FreeMem(@FFileBuffer[0]);
+end;
 
 function TQrMsgManager.GetFileSize(aFile: String): Integer;
 var
@@ -45,7 +58,8 @@ function TQrMsgManager.LoadFromFile(aFile: string;
 var
   fileLen, offset: Integer;
   reader: TStreamReader;
-  buf: TArray<Char>;
+  fileStream: TFileStream;
+  buf: TArray<Byte>;
   pQrMsg: PTQrMsg;
 begin
   if not FileExists(aFile) then
@@ -62,34 +76,36 @@ begin
     SetLength(buf, fileLen + 1);
     ZeroMemory(@buf[0], fileLen + 1);
     reader := TStreamReader.Create(aFile);
-    reader.ReadBlock(buf, 0, fileLen + 1);
+    fileStream := TFileStream.Create(aFile, fmOpenRead);
+    fileStream.Read(buf, fileLen + 1);
+    // reader.ReadBlock(buf, 0, fileLen + 1);
     GetMem(pQrMsg, sizeof(TQrMsg));
-    SetLength(pQrMsg.data, fileLen + 1);
-    ZeroMemory(@pQrMsg.data[0], fileLen + 1);
+    ZeroMemory(@pQrMsg.data[0], Length(pQrMsg.data));
     CopyMemory(@pQrMsg.data[0], @buf[0], fileLen);
     Result.Add(pQrMsg);
     buf := nil;
-    reader.Free;
+    fileStream.Free;
   end
   else
   begin
-    reader := TStreamReader.Create(aFile);
+    // reader := TStreamReader.Create(aFile, TEncoding.UTF8);
+    fileStream := TFileStream.Create(aFile, fmOpenRead);
+    fileStream.position := 0;
     try
-      while not reader.EndOfStream do
+      while fileStream.Position<fileLen do
       begin
         SetLength(buf, aPageSize + 1);
         ZeroMemory(@buf[0], aPageSize + 1);
-        reader.ReadBlock(buf, 0, aPageSize);
+        fileStream.Read(buf, 0, aPageSize);
         GetMem(pQrMsg, sizeof(TQrMsg));
-        SetLength(pQrMsg.data, aPageSize + 1);
-        ZeroMemory(@pQrMsg.data[0], aPageSize + 1);
+        ZeroMemory(@pQrMsg.data[0], Length(pQrMsg.data));
         CopyMemory(@pQrMsg.data[0], @buf[0], aPageSize);
         Result.Add(pQrMsg);
       end;
 
       buf := nil;
     finally
-      reader.Free;
+      fileStream.Free;
     end;
 
   end;

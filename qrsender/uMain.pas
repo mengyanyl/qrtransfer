@@ -42,6 +42,7 @@ var
   recList: TList;
   pQrMsg: PTQrMsg;
   s: String;
+  i: Integer;
 begin
 
   if OpenDialog1.Execute() then
@@ -50,10 +51,15 @@ begin
     qmm := TQrMsgManager.Create;
     Memo1.Lines.Add(OpenDialog1.FileName);
     recList := qmm.LoadFromFile(OpenDialog1.FileName);
-    pQrMsg := PTQrMsg(recList.IndexOf(0));
-    s := PChar(@pQrMsg^.data[0]);
+    pQrMsg := PTQrMsg(recList.Items[0]);
+    s := PChar(@pQrMsg.data[0]);
     Memo1.Lines.Add(s);
     Memo1.Lines.Add(IntToStr(recList.Count));
+    for i := 0 to recList.Count-1 do begin
+      FreeMem(recList.Items[i]);
+    end;
+    recList.Free;
+    qmm.Free;
   end;
 end;
 
