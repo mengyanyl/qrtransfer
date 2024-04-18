@@ -1,4 +1,4 @@
-unit uQrMsgManager;
+锘縰nit uQrMsgManager;
 
 interface
 
@@ -21,7 +21,7 @@ type
     FBase64: TBase64Encoding;
     FFileBuffer: TArray<Byte>;
     FStrings: TStringList;
-    FString: string;
+    FBase64String: string;
 
     function GetFileSize(aFile: String): Integer;
   public
@@ -32,7 +32,8 @@ type
       : TList; overload;
     function LoadFromFile(aPageSize: Integer = 1024): TList; overload;
     property Strings: TStringList read FStrings;
-    property Text: string read FString;
+    property Base64Text: string read FBase64String;
+    property FileBuf: TArray<Byte> read FFileBuffer;
   end;
 
 implementation
@@ -42,7 +43,7 @@ implementation
 constructor TQrMsgManager.Create;
 begin
   FFileBuffer := nil;
-  FString := '';
+  FBase64String := '';
   FStrings := TStringList.Create;
   FBase64 := TBase64Encoding.Create();
 end;
@@ -81,8 +82,11 @@ begin
 
   fileLen := GetFileSize(aFile);
 
-  FString := '';
+  offset := 0;
+  FBase64String := '';
   FStrings.Clear;
+  SetLength(FFileBuffer, fileLen);
+  ZeroMemory(@FFileBuffer[0], fileLen);
 
   fileStream := TFileStream.Create(aFile, fmOpenRead);
   fileStream.position := 0;
@@ -92,19 +96,24 @@ begin
       SetLength(buf, 1024);
       ZeroMemory(@buf[0], 1024);
       len := fileStream.Read(buf, 1024);
-      if (len < 1024) then // 说明读到最后了
+      if (len < 1024) then // 璇存槑璇诲埌鏈�鍚庝簡
       begin
-        SetLength(tmpbuf, 1024);
+        SetLength(tmpbuf, len);
         ZeroMemory(@tmpbuf[0], len);
         CopyMemory(@tmpbuf[0], @buf[0], len);
+        CopyMemory(@FFileBuffer[offset], @buf[0], len);
         str := FBase64.EncodeBytesToString(tmpbuf);
+        tmpbuf := nil;
       end
       else
       begin
-        str := FBase64.EncodeBytesToString(buf);
+        CopyMemory(@FFileBuffer[offset], @buf[0], len);
+        Inc(offset, len);
+        str := TNetEncoding.Base64.EncodeBytesToString(buf);
       end;
       // FStrings.Add(str);
-      FString := FString + str;
+      FBase64String := FBase64String + str;
+      buf := nil;
     end;
   finally
     fileStream.Free;
@@ -149,7 +158,6 @@ begin
     ZeroMemory(@pQrMsg.data[0], Length(pQrMsg.data));
     CopyMemory(@pQrMsg.data[0], @buf[0], fileLen);
     Result.Add(pQrMsg);
-    buf := nil;
     fileStream.Free;
   end
   else
@@ -168,14 +176,12 @@ begin
         CopyMemory(@pQrMsg.data[0], @buf[0], aPageSize);
         Result.Add(pQrMsg);
       end;
-
-      buf := nil;
     finally
       fileStream.Free;
     end;
 
   end;
-
+  buf := nil;
 end;
 
 end.

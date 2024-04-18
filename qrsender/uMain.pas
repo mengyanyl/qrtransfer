@@ -1,4 +1,4 @@
-unit uMain;
+﻿unit uMain;
 
 interface
 
@@ -12,7 +12,8 @@ uses
   ZXing.ReadResult,
   ZXing.ResultPoint,
   DelphiZXingQRCode,
-  uQrMsgManager, System.NetEncoding;
+  uQrMsgManager, System.NetEncoding,
+  uQrManager;
 
 type
   TForm1 = class(TForm)
@@ -22,13 +23,13 @@ type
     Image1: TImage;
     PaintBox1: TPaintBox;
     Memo1: TMemo;
-    SpeedButton2: TSpeedButton;
     Button1: TButton;
     Button2: TButton;
     Memo2: TMemo;
     procedure btnOpenClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    function getStringList(aText: string): TStringList;
   private
     { Private declarations }
   public
@@ -73,13 +74,36 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 var
   qmm: TQrMsgManager;
+  fs: TFileStream;
+  strlist: TStringList;
+  qrMgr: TQrManager;
+  qrBmpList: TList;
 begin
   if OpenDialog1.Execute() then
   begin
+    //create base64 string
     qmm := TQrMsgManager.Create;
     qmm.LoadFileToBuffer(OpenDialog1.FileName);
     Memo1.Clear;
-    Memo1.Lines.Text := qmm.Text;
+    Memo1.Lines.Text := TNetEncoding.Base64.EncodeBytesToString(qmm.FileBuf);
+    strlist := getStringList(
+      TNetEncoding.Base64.EncodeBytesToString(qmm.FileBuf));
+//    Memo2.Lines.Text := strlist.Text;
+
+    //create qrcode list
+    qrMgr := TQrManager.Create;
+    qrBmpList := qrMgr.createQrcode(strlist);
+    Memo2.Text := IntToStr(qrBmpList.Count);
+
+    //load bmp in image1
+    Image1.Picture.Bitmap.Assign(qrBmpList.Items[8]);
+    Image1.Refresh;
+
+    qrMgr.destroyQrList(qrBmpList);
+    qrBmpList.Free;
+    qrMgr.Free;
+    strlist.Clear;
+    strlist.Free;
     qmm.Free;
   end;
 end;
@@ -91,12 +115,34 @@ var
   fs: TFileStream;
 begin
   b64 := TBase64Encoding.Create();
-  bs := b64.DecodeStringToBytes(memo1.Text);
+  bs := TNetEncoding.Base64.DecodeStringToBytes(Memo1.Text);
   fs := TFileStream.Create('./test.txt', fmCreate);
   fs.Write(bs, Length(bs));
   fs.Free;
   b64.Free;
 
+end;
+
+function TForm1.getStringList(aText: string): TStringList;
+var
+  s: string;
+  I, cnt: Integer;
+  c: Char;
+begin
+  s := '';
+  Result := TStringList.Create;
+  cnt := 0;
+  for c in aText do begin
+    s := s + c;
+    Inc(cnt);
+    if cnt=1024 then begin
+      cnt := 0;
+      Result.Add(s);
+      s := '';
+    end;
+  end;
+  if cnt>0 then
+    Result.Add(s)
 end;
 
 end.

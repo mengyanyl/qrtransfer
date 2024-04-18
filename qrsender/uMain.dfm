@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 510
-  ClientWidth = 872
+  ClientHeight = 727
+  ClientWidth = 1171
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,26 +12,21 @@ object Form1: TForm1
   Font.Style = []
   TextHeight = 15
   object Image1: TImage
-    Left = 40
-    Top = 48
-    Width = 187
-    Height = 169
+    Left = 24
+    Top = 32
+    Width = 457
+    Height = 393
+    Stretch = True
   end
   object PaintBox1: TPaintBox
-    Left = 248
-    Top = 48
+    Left = 592
+    Top = 72
     Width = 169
     Height = 169
   end
-  object SpeedButton2: TSpeedButton
-    Left = 576
-    Top = 368
-    Width = 23
-    Height = 22
-  end
   object btnOpen: TButton
-    Left = 688
-    Top = 279
+    Left = 720
+    Top = 519
     Width = 75
     Height = 25
     Caption = #25171#24320#25991#20214
@@ -39,16 +34,16 @@ object Form1: TForm1
     OnClick = btnOpenClick
   end
   object btnSend: TButton
-    Left = 688
-    Top = 343
+    Left = 720
+    Top = 583
     Width = 75
     Height = 25
     Caption = #21457#36865
     TabOrder = 1
   end
   object Memo1: TMemo
-    Left = 40
-    Top = 223
+    Left = 24
+    Top = 461
     Width = 377
     Height = 258
     Lines.Strings = (
@@ -57,8 +52,8 @@ object Form1: TForm1
     TabOrder = 2
   end
   object Button1: TButton
-    Left = 696
-    Top = 416
+    Left = 632
+    Top = 636
     Width = 75
     Height = 25
     Caption = 'Button1'
@@ -66,8 +61,8 @@ object Form1: TForm1
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 616
-    Top = 456
+    Left = 640
+    Top = 680
     Width = 75
     Height = 25
     Caption = 'Button2'
@@ -75,17 +70,17 @@ object Form1: TForm1
     OnClick = Button2Click
   end
   object Memo2: TMemo
-    Left = 456
-    Top = 24
+    Left = 816
+    Top = 32
     Width = 329
-    Height = 233
+    Height = 449
     Lines.Strings = (
       'Memo2')
     ScrollBars = ssBoth
     TabOrder = 5
   end
   object OpenDialog1: TOpenDialog
-    Left = 768
-    Top = 344
+    Left = 800
+    Top = 584
   end
 end
