@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{08F56580-CD26-4777-A1D6-4DC51FD22296}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="qrsender\prjQrsender.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="qrrecever\prjQrreceiver.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="prjQrsender">
+        <MSBuild Projects="qrsender\prjQrsender.dproj"/>
+    </Target>
+    <Target Name="prjQrsender:Clean">
+        <MSBuild Projects="qrsender\prjQrsender.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="prjQrsender:Make">
+        <MSBuild Projects="qrsender\prjQrsender.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="prjQrreceiver">
+        <MSBuild Projects="qrrecever\prjQrreceiver.dproj"/>
+    </Target>
+    <Target Name="prjQrreceiver:Clean">
+        <MSBuild Projects="qrrecever\prjQrreceiver.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="prjQrreceiver:Make">
+        <MSBuild Projects="qrrecever\prjQrreceiver.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="prjQrsender;prjQrreceiver"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="prjQrsender:Clean;prjQrreceiver:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="prjQrsender:Make;prjQrreceiver:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

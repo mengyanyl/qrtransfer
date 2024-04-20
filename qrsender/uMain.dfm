@@ -2,85 +2,98 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 727
-  ClientWidth = 1171
+  ClientHeight = 486
+  ClientWidth = 1050
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnCreate = FormCreate
+  OnMouseDown = FormMouseDown
+  OnMouseMove = FormMouseMove
   TextHeight = 15
-  object Image1: TImage
-    Left = 24
-    Top = 32
-    Width = 457
-    Height = 393
-    Stretch = True
-  end
-  object PaintBox1: TPaintBox
-    Left = 592
-    Top = 72
-    Width = 169
-    Height = 169
-  end
-  object btnOpen: TButton
-    Left = 720
-    Top = 519
-    Width = 75
-    Height = 25
-    Caption = #25171#24320#25991#20214
-    TabOrder = 0
-    OnClick = btnOpenClick
-  end
-  object btnSend: TButton
-    Left = 720
-    Top = 583
-    Width = 75
-    Height = 25
-    Caption = #21457#36865
-    TabOrder = 1
-  end
   object Memo1: TMemo
-    Left = 24
-    Top = 461
-    Width = 377
-    Height = 258
+    Left = 496
+    Top = 26
+    Width = 513
+    Height = 328
     Lines.Strings = (
       'Memo1')
     ScrollBars = ssBoth
-    TabOrder = 2
+    TabOrder = 0
   end
   object Button1: TButton
-    Left = 632
-    Top = 636
+    Left = 776
+    Top = 412
     Width = 75
     Height = 25
-    Caption = 'Button1'
-    TabOrder = 3
+    Caption = #25171#24320#25991#20214
+    TabOrder = 1
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 640
-    Top = 680
+    Left = 934
+    Top = 412
     Width = 75
     Height = 25
     Caption = 'Button2'
-    TabOrder = 4
+    TabOrder = 2
     OnClick = Button2Click
   end
   object Memo2: TMemo
-    Left = 816
-    Top = 32
-    Width = 329
-    Height = 449
+    Left = 496
+    Top = 360
+    Width = 513
+    Height = 33
     Lines.Strings = (
       'Memo2')
-    ScrollBars = ssBoth
+    TabOrder = 3
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 467
+    Width = 1050
+    Height = 19
+    Panels = <
+      item
+        Width = 200
+      end
+      item
+        Width = 200
+      end
+      item
+        Width = 50
+      end>
+    ExplicitLeft = 592
+    ExplicitTop = 376
+    ExplicitWidth = 0
+  end
+  object Panel1: TPanel
+    Left = 24
+    Top = 22
+    Width = 425
+    Height = 371
+    BevelInner = bvLowered
+    BevelKind = bkFlat
     TabOrder = 5
+    object PaintBox1: TPaintBox
+      Left = 2
+      Top = 2
+      Width = 417
+      Height = 363
+      Align = alClient
+      Color = clBtnShadow
+      ParentColor = False
+      ExplicitLeft = -24
+      ExplicitTop = -30
+      ExplicitWidth = 449
+      ExplicitHeight = 401
+    end
   end
   object OpenDialog1: TOpenDialog
-    Left = 800
-    Top = 584
+    Left = 584
+    Top = 136
   end
 end
