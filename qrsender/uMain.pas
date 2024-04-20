@@ -13,7 +13,7 @@ uses
   ZXing.ResultPoint,
   DelphiZXingQRCode,
   uQrMsgManager, System.NetEncoding,
-  uQrManager;
+  uQrManager, uSrcQrcodeThread;
 
 type
   TForm1 = class(TForm)
@@ -78,6 +78,7 @@ var
   strlist: TStringList;
   qrMgr: TQrManager;
   qrBmpList: TList;
+    qrThread: TSrcQrcodeThread;
 begin
   if OpenDialog1.Execute() then
   begin
@@ -96,15 +97,22 @@ begin
     Memo2.Text := IntToStr(qrBmpList.Count);
 
     //load bmp in image1
-    Image1.Picture.Bitmap.Assign(qrBmpList.Items[8]);
-    Image1.Refresh;
+//    Image1.Picture.Bitmap.Assign(qrBmpList.Items[8]);
+//    Image1.Refresh;
 
-    qrMgr.destroyQrList(qrBmpList);
-    qrBmpList.Free;
-    qrMgr.Free;
-    strlist.Clear;
-    strlist.Free;
-    qmm.Free;
+    //start qrcode thread
+    qrThread := TSrcQrcodeThread.Create(True);
+    qrThread.QrBmpList:=qrBmpList;
+    qrThread.Start;
+
+    if qrThread.Stoped then  begin
+      qrMgr.destroyQrList(qrBmpList);
+      qrBmpList.Free;
+      qrMgr.Free;
+      strlist.Clear;
+      strlist.Free;
+      qmm.Free;
+    end;
   end;
 end;
 

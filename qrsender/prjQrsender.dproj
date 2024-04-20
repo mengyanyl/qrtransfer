@@ -84,7 +84,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
-        <DCC_UnitSearchPath>D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\1D Barcodes;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\2D Barcodes;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\2D Barcodes\Decoder;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\2D Barcodes\Detector;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\Common;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\Common\Detector;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\Common\ReedSolomon;D:\work\delphiProject\ccb\ZXing.Delphi-3.9.12\Lib\Classes\Filtering;D:\work\delphiProject\ccb\DelphiZXingQRCode\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\1D Barcodes;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\2D Barcodes;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\2D Barcodes\Decoder;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\2D Barcodes\Detector;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\Common;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\Common\Detector;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\Common\ReedSolomon;C:\work\delphiproj\qrcode\ZXing.Delphi-3.9.12\Lib\Classes\Filtering;C:\work\delphiproj\qrcode\DelphiZXingQRCode\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
@@ -107,6 +107,7 @@
         </DCCReference>
         <DCCReference Include="uQrManager.pas"/>
         <DCCReference Include="uQrMsgManager.pas"/>
+        <DCCReference Include="uSrcQrcodeThread.pas"/>
         <None Include="ModelSupport_prjQrsender\default.txaPackage"/>
         <None Include="ModelSupport_prjQrsender\default.txvpck"/>
         <None Include="ModelSupport_prjQrsender\uMain\default.txvpck"/>

@@ -4,7 +4,8 @@ uses
   Vcl.Forms,
   uMain in 'uMain.pas' {Form1},
   uQrManager in 'uQrManager.pas',
-  uQrMsgManager in 'uQrMsgManager.pas';
+  uQrMsgManager in 'uQrMsgManager.pas',
+  uSrcQrcodeThread in 'uSrcQrcodeThread.pas';
 
 {$R *.res}
 
