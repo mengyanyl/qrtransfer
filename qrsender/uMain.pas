@@ -20,28 +20,34 @@ type
     OpenDialog1: TOpenDialog;
     PaintBox1: TPaintBox;
     Memo1: TMemo;
-    Button1: TButton;
-    Button2: TButton;
-    Memo2: TMemo;
+    btnOpenFile: TButton;
+    btnStart: TButton;
     StatusBar1: TStatusBar;
-    Panel1: TPanel;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    ProgressBar1: TProgressBar;
+    SpeedButton1: TSpeedButton;
+    btnPause: TButton;
+    memRecidue: TMemo;
+    Label1: TLabel;
+    procedure btnOpenFileClick(Sender: TObject);
+    procedure btnStartClick(Sender: TObject);
     function getStringList(aText: string): TStringList;
     procedure FormCreate(Sender: TObject);
     procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure btnPauseClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     FQrBmpList: TList;
-    FPaintBoxList: TList;
     FOpened: Boolean;
     FStringList: TStringList;
+    FStrRecidueList: TStringList;
     procedure applicationOnIdle(Sender: TObject; var Done: Boolean);
+    procedure OnQrCreateProgress(Sender: TObject; AProgress:Integer);
   public
     { Public declarations }
-    property PaintBoxList: TList read FPaintBoxList;
   end;
 
 var
@@ -51,7 +57,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.btnOpenFileClick(Sender: TObject);
 var
   qmm: TQrMsgManager;
   fs: TFileStream;
@@ -61,81 +67,95 @@ var
   qrThread: TSrcQrcodeThread;
   i: Integer;
 begin
+  ProgressBar1.Position := 0;
+  FOpened := False;
   if OpenDialog1.Execute() then
   begin
+    //clear list
+    FStringList.Clear;
+    for I := 0 to FQrBmpList.Count-1 do begin
+      FreeMem(FQrBmpList.Items[I]);
+    end;
+    FQrBmpList.Clear;
+    paintBox1.Canvas.Brush.Color := clWhite;
+    paintBox1.Canvas.FillRect(Rect(0, 0, paintBox1.Width, paintBox1.Height));
+
+    Memo1.Lines.Clear;
     // create base64 string
     qmm := TQrMsgManager.Create;
     qmm.LoadFileToBuffer(OpenDialog1.FileName);
     Memo1.Clear;
-    // Memo1.Lines.Text := TNetEncoding.Base64.EncodeBytesToString(qmm.FileBuf);
+//     Memo1.Lines.Add(TNetEncoding.Base64.EncodeBytesToString(qmm.FileBuf));
+//     Memo2.Lines.Text := strlist.Text;
     strlist := getStringList(TNetEncoding.Base64.EncodeBytesToString
-      (qmm.FileBuf));
-    // Memo2.Lines.Text := strlist.Text;
+                              (qmm.FileBuf));
     FStringList := strlist;
+    ProgressBar1.Max := strlist.Count-1;
 
     // create qrcode list
     qrMgr := TQrManager.Create;
+    qrMgr.OnQrCreateProgress := OnQrCreateProgress;
     qrBmpList := qrMgr.createQrcode(strlist);
     FQrBmpList := qrBmpList;
-    Memo2.Text := IntToStr(qrBmpList.Count);
+    Memo1.Lines.Add('共生成: ' + IntToStr(qrBmpList.Count) + '二维码数据包');
 
-
-    // load bmp in image1
-    // Image1.Picture.Bitmap.Assign(qrBmpList.Items[8]);
-    // Image1.Refresh;
-
-    // start qrcode thread
-    qrThread := TSrcQrcodeThread.Create(True);
-    qrThread.qrBmpList := qrBmpList;
-//    qrThread.OnThreadPaint := PaintBox1Paint;
-//    qrThread.Start;
-
-    if qrThread.Stoped then
-    begin
-      qrMgr.destroyQrList(qrBmpList);
-      qrBmpList.Free;
-      qrMgr.Free;
-      strlist.Clear;
-      strlist.Free;
-      qmm.Free;
-    end;
+    FreeAndNil(qrMgr);
+    FreeAndNil(qmm);
   end;
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
-var
-  b64: TBase64Encoding;
-  bs: TArray<Byte>;
-  fs: TFileStream;
+procedure TForm1.btnPauseClick(Sender: TObject);
 begin
-  b64 := TBase64Encoding.Create();
-  bs := TNetEncoding.Base64.DecodeStringToBytes(Memo1.Text);
-  fs := TFileStream.Create('./test.txt', fmCreate);
-  fs.Write(bs, Length(bs));
-  fs.Free;
-  b64.Free;
+  FOpened := False;
+end;
 
+procedure TForm1.btnStartClick(Sender: TObject);
+begin
+  FOpened := True;
+  FStrRecidueList.Clear;
+  if memRecidue.Text<>'' then begin
+    FStrRecidueList.Delimiter := ',';
+    FStrRecidueList.StrictDelimiter:= True;
+    FStrRecidueList.DelimitedText := memRecidue.Text;    
+  end;
+end;
+
+procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FOpened := True;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   Memo1.Lines.Clear;
-  Memo2.Lines.Clear;
   FQrBmpList := TList.Create;
-  FPaintBoxList := TList.Create;
+  FStringList := TStringList.Create;
+  FStrRecidueList := TStringList.Create;
   FOpened := False;
   Application.OnIdle := applicationOnIdle;
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+var
+  I: Integer;
+begin
+  FStringList.Clear;
+  FreeAndNil(FStringList);
+  for I := 0 to FQrBmpList.Count-1 do begin
+      FreeMem(FQrBmpList.Items[I]);
+  end;
+  FreeAndNil(FQrBmpList);
+  FreeAndNil(FStrRecidueList);
 end;
 
 procedure TForm1.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if (Button=TMouseButton.mbRight) then begin
-    Memo1.Lines.Clear;
     Memo1.Lines.Add('left=' + IntToStr(ClientToScreen(Point(x, y)).X)
        + '; top=' + IntToStr(ClientToScreen(Point(x, y)).Y)
-       + '; right=' + IntToStr(ClientToScreen(Point(x, y)).X + Panel1.Width)
-       + '; bottom=' + IntToStr(ClientToScreen(Point(x, y)).Y + Panel1.Height));
+       + '; right=' + IntToStr(ClientToScreen(Point(x, y)).X + PaintBox1.Width + 5)
+       + '; bottom=' + IntToStr(ClientToScreen(Point(x, y)).Y + PaintBox1.Height + 5));
   end;
 end;
 
@@ -151,7 +171,7 @@ end;
 function TForm1.getStringList(aText: string): TStringList;
 var
   s: string;
-  i, cnt: Integer;
+  i, cnt, total: Integer;
   c: Char;
 begin
   s := '';
@@ -164,12 +184,22 @@ begin
     if cnt = 1024 then
     begin
       cnt := 0;
-      Result.Add(IntToStr(Result.Count+1) + '||||' + s);
+      Result.Add(IntToStr(Result.Count) + '$$$$' + s);
       s := '';
     end;
   end;
   if cnt > 0 then
-    Result.Add(IntToStr(Result.Count+1) + '||||' + s);
+    Result.Add(IntToStr(Result.Count) + '$$$$' + s);
+  //add total count into message
+  total := Result.Count;
+  for I := 0 to Result.Count-1 do
+    Result[I] := IntToStr(total) + '||||' + Result[I];
+end;
+
+procedure TForm1.OnQrCreateProgress(Sender: TObject; AProgress: Integer);
+begin
+  ProgressBar1.Position := AProgress;
+  Application.ProcessMessages;
 end;
 
 procedure TForm1.applicationOnIdle(Sender: TObject; var Done: Boolean);
@@ -178,8 +208,24 @@ var
   scale: Double;
   paintBox: TPaintBox;
   qrBmp: TBitmap;
+  strRecidueList: TStringList;
+  
+  function isInList(n: Integer; aStrList: TStringList):Boolean;
+  var
+    j: Integer;
+  begin
+    Result:=False;
+    for j := 0 to aStrList.Count-1 do begin
+      if inttostr(n)=aStrList.Strings[j] then begin
+        Result:=true;
+        break;
+      end;
+    end;
+  end;
 begin
   Done := False;
+
+  if not FOpened then Exit;
 
   if not Assigned(FStringList) then Exit;
   
@@ -192,6 +238,11 @@ begin
 
   for i := 0 to FQrBmpList.Count - 1 do
   begin
+    if not FOpened then break;
+    if FStrRecidueList.Count>0 then begin
+      if not isInList(i, FStrRecidueList) then continue;
+    end;
+    
     qrBmp := TBitmap(FQrBmpList.Items[i]);
     if (paintBox.Width < paintBox.Height) then
     begin
@@ -203,8 +254,10 @@ begin
     end;
     paintBox.Canvas.StretchDraw(Rect(0, 0, Trunc(qrBmp.Width * scale),
       Trunc(qrBmp.Height * scale)), qrBmp);
-    Sleep(100);
+    Sleep(20);
+    Application.ProcessMessages;
   end;
+
 end;
 
 end.

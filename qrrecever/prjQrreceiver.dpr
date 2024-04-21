@@ -2,7 +2,8 @@ program prjQrreceiver;
 
 uses
   Vcl.Forms,
-  uMain in 'uMain.pas' {frmRecv};
+  uMain in 'uMain.pas' {frmRecv},
+  uQrMsgManager in '..\qrsender\uQrMsgManager.pas';
 
 {$R *.res}
 

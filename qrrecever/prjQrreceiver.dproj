@@ -105,6 +105,7 @@
             <Form>frmRecv</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\qrsender\uQrMsgManager.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
