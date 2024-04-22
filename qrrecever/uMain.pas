@@ -23,7 +23,6 @@ type
   End;
 
   TfrmRecv = class(TForm)
-    Panel1: TPanel;
     paintBox: TPaintBox;
     Memo1: TMemo;
     btnRecv: TButton;
@@ -208,8 +207,8 @@ begin
   srcCanvas.Handle := GetDC(GetDesktopWindow);
   Result := TBitmap.Create;
   try
-    Result.Width := 398;
-    Result.Height := 398;
+    Result.Width := 400;
+    Result.Height := 400;
     Result.Canvas.CopyRect(Rect(0, 0, Result.Width, Result.Height), srcCanvas,
       Rect(StrToInt(edtLeft.Text), StrToInt(edtTop.Text),
       StrToInt(edtRight.Text), StrToInt(edtBottom.Text)));

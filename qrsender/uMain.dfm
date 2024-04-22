@@ -5,7 +5,7 @@ object Form1: TForm1
   BorderStyle = bsSingle
   Caption = 'Myan QrSender'
   ClientHeight = 486
-  ClientWidth = 984
+  ClientWidth = 959
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -40,17 +40,17 @@ object Form1: TForm1
     ParentColor = False
   end
   object Memo1: TMemo
-    Left = 448
+    Left = 424
     Top = 18
     Width = 513
-    Height = 371
+    Height = 380
     Lines.Strings = (
       'Memo1')
     ScrollBars = ssBoth
     TabOrder = 0
   end
   object btnOpenFile: TButton
-    Left = 672
+    Left = 652
     Top = 420
     Width = 75
     Height = 25
@@ -59,7 +59,7 @@ object Form1: TForm1
     OnClick = btnOpenFileClick
   end
   object btnStart: TButton
-    Left = 782
+    Left = 762
     Top = 419
     Width = 75
     Height = 25
@@ -70,7 +70,7 @@ object Form1: TForm1
   object StatusBar1: TStatusBar
     Left = 0
     Top = 467
-    Width = 984
+    Width = 959
     Height = 19
     Panels = <
       item
@@ -82,8 +82,8 @@ object Form1: TForm1
       item
         Width = 50
       end>
-    ExplicitTop = 466
-    ExplicitWidth = 980
+    ExplicitTop = 449
+    ExplicitWidth = 974
   end
   object ProgressBar1: TProgressBar
     Left = 400
@@ -93,7 +93,7 @@ object Form1: TForm1
     TabOrder = 4
   end
   object btnPause: TButton
-    Left = 886
+    Left = 866
     Top = 420
     Width = 75
     Height = 25
@@ -104,7 +104,7 @@ object Form1: TForm1
   object memRecidue: TMemo
     Left = 114
     Top = 420
-    Width = 527
+    Width = 479
     Height = 25
     TabOrder = 6
   end

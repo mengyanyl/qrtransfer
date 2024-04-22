@@ -16,63 +16,51 @@ object frmRecv: TfrmRecv
   OnDestroy = FormDestroy
   TextHeight = 15
   object Label2: TLabel
-    Left = 456
-    Top = 409
+    Left = 432
+    Top = 421
     Width = 65
     Height = 15
     Caption = #20108#32500#30721#24635#25968
   end
   object Label3: TLabel
-    Left = 456
-    Top = 435
+    Left = 432
+    Top = 447
     Width = 65
     Height = 15
     Caption = #21097#20313#20108#32500#30721
   end
-  object Panel1: TPanel
+  object paintBox: TPaintBox
     Left = 8
-    Top = 11
+    Top = 15
     Width = 400
     Height = 400
-    BevelInner = bvLowered
-    BevelKind = bkFlat
-    TabOrder = 0
-    object paintBox: TPaintBox
-      Left = 2
-      Top = 2
-      Width = 392
-      Height = 392
-      Align = alClient
-      Color = clBtnShadow
-      ParentColor = False
-      ExplicitLeft = -2
-      ExplicitTop = -5
-    end
+    Color = clBtnShadow
+    ParentColor = False
   end
   object Memo1: TMemo
-    Left = 499
+    Left = 432
     Top = 15
-    Width = 337
-    Height = 367
+    Width = 371
+    Height = 400
     Lines.Strings = (
       'Memo1')
-    TabOrder = 1
+    TabOrder = 0
   end
   object btnRecv: TButton
-    Left = 606
-    Top = 461
+    Left = 598
+    Top = 473
     Width = 75
     Height = 25
     Caption = #24320' '#22987
-    TabOrder = 2
+    TabOrder = 1
     OnClick = btnRecvClick
   end
   object Panel2: TPanel
-    Left = 8
-    Top = 429
-    Width = 417
+    Left = 14
+    Top = 421
+    Width = 400
     Height = 80
-    TabOrder = 3
+    TabOrder = 2
     object Label1: TLabel
       Left = 320
       Top = 32
@@ -114,37 +102,37 @@ object frmRecv: TfrmRecv
     end
   end
   object edtTotal: TEdit
-    Left = 527
-    Top = 406
-    Width = 266
+    Left = 503
+    Top = 418
+    Width = 300
     Height = 23
     ReadOnly = True
-    TabOrder = 4
+    TabOrder = 3
   end
   object btnPause: TButton
-    Left = 718
-    Top = 461
+    Left = 728
+    Top = 473
     Width = 75
     Height = 25
     Caption = #26242' '#20572
-    TabOrder = 5
+    TabOrder = 4
     OnClick = btnPauseClick
   end
   object edtResidue: TEdit
-    Left = 527
-    Top = 432
-    Width = 266
+    Left = 503
+    Top = 444
+    Width = 300
     Height = 23
     ReadOnly = True
-    TabOrder = 6
+    TabOrder = 5
   end
   object btnResidue: TButton
-    Left = 496
-    Top = 461
+    Left = 472
+    Top = 473
     Width = 75
     Height = 25
     Caption = #26597#30475#21097#20313
-    TabOrder = 7
+    TabOrder = 6
     OnClick = btnResidueClick
   end
   object Timer1: TTimer

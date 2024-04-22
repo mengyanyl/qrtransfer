@@ -13,7 +13,7 @@ uses
   ZXing.ResultPoint,
   DelphiZXingQRCode,
   uQrMsgManager, System.NetEncoding,
-  uQrManager, uSrcQrcodeThread, GR32_Image, Vcl.ComCtrls;
+  uQrManager, uSrcQrcodeThread, Vcl.ComCtrls;
 
 type
   TForm1 = class(TForm)
