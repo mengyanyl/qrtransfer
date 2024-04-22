@@ -1,86 +1,115 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
-  ClientHeight = 727
-  ClientWidth = 1171
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = 'Myan QrSender'
+  ClientHeight = 486
+  ClientWidth = 984
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnMouseDown = FormMouseDown
+  OnMouseMove = FormMouseMove
   TextHeight = 15
-  object Image1: TImage
-    Left = 24
-    Top = 32
-    Width = 457
-    Height = 393
-    Stretch = True
+  object SpeedButton1: TSpeedButton
+    Left = 520
+    Top = 248
+    Width = 23
+    Height = 22
+  end
+  object Label1: TLabel
+    Left = 17
+    Top = 423
+    Width = 91
+    Height = 15
+    Caption = #26410#35782#21035#30340#20108#32500#30721
   end
   object PaintBox1: TPaintBox
-    Left = 592
-    Top = 72
-    Width = 169
-    Height = 169
-  end
-  object btnOpen: TButton
-    Left = 720
-    Top = 519
-    Width = 75
-    Height = 25
-    Caption = #25171#24320#25991#20214
-    TabOrder = 0
-    OnClick = btnOpenClick
-  end
-  object btnSend: TButton
-    Left = 720
-    Top = 583
-    Width = 75
-    Height = 25
-    Caption = #21457#36865
-    TabOrder = 1
+    Left = 17
+    Top = 18
+    Width = 380
+    Height = 380
+    Color = clBtnShadow
+    ParentColor = False
   end
   object Memo1: TMemo
-    Left = 24
-    Top = 461
-    Width = 377
-    Height = 258
+    Left = 448
+    Top = 18
+    Width = 513
+    Height = 371
     Lines.Strings = (
       'Memo1')
     ScrollBars = ssBoth
+    TabOrder = 0
+  end
+  object btnOpenFile: TButton
+    Left = 672
+    Top = 420
+    Width = 75
+    Height = 25
+    Caption = #25171#24320#25991#20214
+    TabOrder = 1
+    OnClick = btnOpenFileClick
+  end
+  object btnStart: TButton
+    Left = 782
+    Top = 419
+    Width = 75
+    Height = 25
+    Caption = #24320' '#22987
     TabOrder = 2
+    OnClick = btnStartClick
   end
-  object Button1: TButton
-    Left = 632
-    Top = 636
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 3
-    OnClick = Button1Click
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 467
+    Width = 984
+    Height = 19
+    Panels = <
+      item
+        Width = 200
+      end
+      item
+        Width = 200
+      end
+      item
+        Width = 50
+      end>
+    ExplicitTop = 466
+    ExplicitWidth = 980
   end
-  object Button2: TButton
-    Left = 640
-    Top = 680
-    Width = 75
-    Height = 25
-    Caption = 'Button2'
+  object ProgressBar1: TProgressBar
+    Left = 400
+    Top = 469
+    Width = 642
+    Height = 17
     TabOrder = 4
-    OnClick = Button2Click
   end
-  object Memo2: TMemo
-    Left = 816
-    Top = 32
-    Width = 329
-    Height = 449
-    Lines.Strings = (
-      'Memo2')
-    ScrollBars = ssBoth
+  object btnPause: TButton
+    Left = 886
+    Top = 420
+    Width = 75
+    Height = 25
+    Caption = #26242' '#20572
     TabOrder = 5
+    OnClick = btnPauseClick
+  end
+  object memRecidue: TMemo
+    Left = 114
+    Top = 420
+    Width = 527
+    Height = 25
+    TabOrder = 6
   end
   object OpenDialog1: TOpenDialog
-    Left = 800
-    Top = 584
+    Left = 584
+    Top = 136
   end
 end

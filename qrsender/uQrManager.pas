@@ -7,9 +7,14 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, DelphiZXingQRCode;
 
 type
+
+  TOnQrcodeCreateProgress = procedure (Sender: TObject; AProgress: Integer) of object;
+
+type
   TQrManager = class
   private
     FQrCode: TDelphiZXingQRCode;
+    FOnQrCreateProgress: TOnQrcodeCreateProgress;
   public
     constructor Create;
     destructor Destroy;
@@ -17,6 +22,8 @@ type
     function createQrcode(aStrList: TStringList): TList; overload;
     procedure destroyQrList(aQrBmps: TList);
     function scanQrcode: TBitmap;
+    property OnQrCreateProgress: TOnQrcodeCreateProgress
+                            read FOnQrCreateProgress write FOnQrCreateProgress;
   end;
 
 implementation
@@ -36,7 +43,7 @@ begin
   try
     QRCode.Data := aStr;
     QRCode.Encoding := TQRCodeEncoding.qrAuto;
-    QRCode.QuietZone := StrToIntDef('4', 4);
+    QRCode.QuietZone := StrToIntDef('2', 4);
     Result.SetSize(QRCode.Rows, QRCode.Columns);
     for Row := 0 to QRCode.Rows - 1 do
     begin
@@ -63,6 +70,8 @@ var
 begin
   Result := TList.Create;
   for i:=0 to aStrList.Count-1 do begin
+     if Assigned(FOnQrCreateProgress) then
+        self.FOnQrCreateProgress(self, i);
      qrBmp := self.createQrcode(aStrList.Strings[i]);
      Result.Add(qrBmp);
   end;

@@ -10,7 +10,3 @@
 */*.identcache
 */*.res
 */*.tvsconfig
-*/*.groupproj.local
-*/*.tvsconfig
-*.groupproj.local
-*.tvsconfig

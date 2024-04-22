@@ -31,6 +31,7 @@ type
     function LoadFromFile(aFile: string; aPageSize: Integer = 1024)
       : TList; overload;
     function LoadFromFile(aPageSize: Integer = 1024): TList; overload;
+    procedure WriteFileFromBytes(buffer: TArray<Byte>);
     property Strings: TStringList read FStrings;
     property Base64Text: string read FBase64String;
     property FileBuf: TArray<Byte> read FFileBuffer;
@@ -85,6 +86,7 @@ begin
   offset := 0;
   FBase64String := '';
   FStrings.Clear;
+  FFileBuffer := nil;
   SetLength(FFileBuffer, fileLen);
   ZeroMemory(@FFileBuffer[0], fileLen);
 
@@ -128,6 +130,20 @@ function TQrMsgManager.LoadFromFile(aPageSize: Integer): TList;
 var
   buf: TArray<Char>;
 begin
+end;
+
+procedure TQrMsgManager.WriteFileFromBytes(buffer: TArray<Byte>);
+var
+  len : Integer;
+  fileStream: TFileStream;
+begin
+  fileStream := TFileStream.Create('./test', fmCreate);
+  fileStream.Position := 0;
+  try
+    len := fileStream.Write(buffer, Length(buffer));
+  finally
+    FreeAndNil(fileStream);
+  end;
 end;
 
 function TQrMsgManager.LoadFromFile(aFile: string;
