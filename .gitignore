@@ -5,6 +5,7 @@
 */*.local
 */*.identcache
 */*.tvsconfig
+*/*.dproj
 */*.dproj.local
 */*.identcache
 */*.res
