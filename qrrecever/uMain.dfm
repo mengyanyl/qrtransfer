@@ -29,14 +29,6 @@ object frmRecv: TfrmRecv
     Height = 15
     Caption = #21097#20313#20108#32500#30721
   end
-  object paintBox: TPaintBox
-    Left = 8
-    Top = 15
-    Width = 400
-    Height = 400
-    Color = clBtnShadow
-    ParentColor = False
-  end
   object Memo1: TMemo
     Left = 432
     Top = 15
@@ -44,10 +36,11 @@ object frmRecv: TfrmRecv
     Height = 400
     Lines.Strings = (
       'Memo1')
+    ScrollBars = ssVertical
     TabOrder = 0
   end
   object btnRecv: TButton
-    Left = 598
+    Left = 639
     Top = 473
     Width = 75
     Height = 25
@@ -74,6 +67,7 @@ object frmRecv: TfrmRecv
       Width = 121
       Height = 23
       TabOrder = 0
+      Text = '100'
       TextHint = 'left'
     end
     object edtTop: TEdit
@@ -82,6 +76,7 @@ object frmRecv: TfrmRecv
       Width = 121
       Height = 23
       TabOrder = 1
+      Text = '100'
       TextHint = 'top'
     end
     object edtRight: TEdit
@@ -90,6 +85,7 @@ object frmRecv: TfrmRecv
       Width = 121
       Height = 23
       TabOrder = 2
+      Text = '500'
       TextHint = 'right'
     end
     object edtBottom: TEdit
@@ -98,6 +94,7 @@ object frmRecv: TfrmRecv
       Width = 121
       Height = 23
       TabOrder = 3
+      Text = '500'
       TextHint = 'bottom'
     end
   end
@@ -127,13 +124,41 @@ object frmRecv: TfrmRecv
     TabOrder = 5
   end
   object btnResidue: TButton
-    Left = 472
+    Left = 544
     Top = 473
     Width = 75
     Height = 25
     Caption = #26597#30475#21097#20313
     TabOrder = 6
     OnClick = btnResidueClick
+  end
+  object Panel1: TPanel
+    Left = 14
+    Top = 15
+    Width = 384
+    Height = 384
+    BevelInner = bvLowered
+    TabOrder = 7
+    object paintBox: TPaintBox
+      Left = 2
+      Top = 2
+      Width = 380
+      Height = 380
+      Align = alClient
+      Color = clBtnShadow
+      ParentColor = False
+      ExplicitLeft = -195
+      ExplicitTop = -339
+    end
+  end
+  object btnImg: TButton
+    Left = 448
+    Top = 473
+    Width = 75
+    Height = 25
+    Caption = #20445#23384#22270#29255
+    TabOrder = 8
+    OnClick = btnImgClick
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer

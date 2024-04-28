@@ -12,7 +12,7 @@ uses
   ZXing.ReadResult,
   ZXing.ResultPoint,
   System.NetEncoding,
-  uQrMsgManager, Math;
+  uQrMsgManager, Math, System.DateUtils;
 
 type
 
@@ -39,12 +39,15 @@ type
     edtResidue: TEdit;
     Label3: TLabel;
     btnResidue: TButton;
+    Panel1: TPanel;
+    btnImg: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnRecvClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnPauseClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure btnResidueClick(Sender: TObject);
+    procedure btnImgClick(Sender: TObject);
   private
     FQrFlagList: TStringList;
     FQrMsgList: TList;
@@ -132,7 +135,7 @@ begin
       IndexQrMsg.msg := rs.Text.Substring(rs.Text.IndexOf('$$$$') + 4);
       IndexQrMsg.index := StrToInt(pageFlag);
       FQrMsgList.Add(IndexQrMsg);
-      Memo1.Lines.Add(pageFlag);
+//      Memo1.Lines.Add(pageFlag);
     end;
   end;
   FreeAndNil(rs);
@@ -140,8 +143,8 @@ begin
   // finish receiving qrcode
   if (FQrMsgList.Count = FTotalPage) and (FTotalPage<>0) then
   begin
-    endTime := Time;
-    elapsedTime := endTime - FStartTime;
+    endTime := Now;
+    elapsedTime := SecondsBetween(FStartTime, endTime);
     Memo1.Lines.Add('接收完成, 二维码数量: ' + IntToStr(FTotalPage) + ' 用时: ' +
       FloatToStr(elapsedTime));
     FQrMsgList.SortList(compareItem);
@@ -154,6 +157,15 @@ begin
   end;
 
   FreeAndNil(ScanManager);
+  FreeAndNil(bmp);
+end;
+
+procedure TfrmRecv.btnImgClick(Sender: TObject);
+var
+  bmp: TBitmap;
+begin
+  bmp := CaptureQrcode;
+  bmp.SaveToFile('./testtmp.jpg');
   FreeAndNil(bmp);
 end;
 
@@ -174,7 +186,7 @@ begin
   end;
   FQrMsgList.Clear;
   FQrFlagList.Clear;
-  FStartTime := Time;
+  FStartTime := Now;
 end;
 
 procedure TfrmRecv.btnResidueClick(Sender: TObject);
@@ -207,8 +219,8 @@ begin
   srcCanvas.Handle := GetDC(GetDesktopWindow);
   Result := TBitmap.Create;
   try
-    Result.Width := 400;
-    Result.Height := 400;
+    Result.Width := 380;
+    Result.Height := 380;
     Result.Canvas.CopyRect(Rect(0, 0, Result.Width, Result.Height), srcCanvas,
       Rect(StrToInt(edtLeft.Text), StrToInt(edtTop.Text),
       StrToInt(edtRight.Text), StrToInt(edtBottom.Text)));
@@ -282,7 +294,6 @@ end;
 procedure TfrmRecv.Timer1Timer(Sender: TObject);
 begin
   if FTotalPage=0 then Exit;
-
   edtResidue.Text := IntToStr(FTotalPage - FQrFlagList.Count);
 end;
 

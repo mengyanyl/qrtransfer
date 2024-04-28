@@ -24,10 +24,17 @@ type
     btnStart: TButton;
     StatusBar1: TStatusBar;
     ProgressBar1: TProgressBar;
-    SpeedButton1: TSpeedButton;
     btnPause: TButton;
     memRecidue: TMemo;
     Label1: TLabel;
+    Label2: TLabel;
+    edtQrPage: TEdit;
+    Panel1: TPanel;
+    Button1: TButton;
+    edtFps: TEdit;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
     procedure btnOpenFileClick(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
     function getStringList(aText: string): TStringList;
@@ -38,14 +45,17 @@ type
     procedure btnPauseClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     FQrBmpList: TList;
     FOpened: Boolean;
     FStringList: TStringList;
     FStrRecidueList: TStringList;
+        Fqrmgr: TQrManager;
     procedure applicationOnIdle(Sender: TObject; var Done: Boolean);
     procedure OnQrCreateProgress(Sender: TObject; AProgress:Integer);
+    procedure OnQrCreateCostTime(Sender: TObject; AIndex, ACostTime:Integer);
   public
     { Public declarations }
   end;
@@ -89,15 +99,17 @@ begin
 //     Memo2.Lines.Text := strlist.Text;
     strlist := getStringList(TNetEncoding.Base64.EncodeBytesToString
                               (qmm.FileBuf));
+    Memo1.Lines.Add('读取文件完成，开始生成二维码信息');
     FStringList := strlist;
     ProgressBar1.Max := strlist.Count-1;
 
     // create qrcode list
     qrMgr := TQrManager.Create;
+    qrBmpList := TList.Create;
     qrMgr.OnQrCreateProgress := OnQrCreateProgress;
-    qrBmpList := qrMgr.createQrcode(strlist);
-    FQrBmpList := qrBmpList;
-    Memo1.Lines.Add('共生成: ' + IntToStr(qrBmpList.Count) + '二维码数据包');
+    qrMgr.OnQrcodeCreateCostTime := OnQrCreateCostTime;
+    FQrBmpList := qrMgr.createQrcode(strlist);
+    Memo1.Lines.Add('共生成: ' + IntToStr(FQrBmpList.Count) + '二维码数据包');
 
     FreeAndNil(qrMgr);
     FreeAndNil(qmm);
@@ -120,6 +132,39 @@ begin
   end;
 end;
 
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  paintBox: TPaintBox;
+  qrBmp: TBitmap;
+  scale: Double;
+  qrmgr: TQrManager;
+begin
+  if memRecidue.Text='' then Exit;
+
+  Memo1.Lines.Add(FStringList.Strings[strtoint(FStrRecidueList.Strings[0])]);
+
+  paintBox := Form1.PaintBox1;
+  paintBox.Canvas.Brush.Color := clWhite;
+  paintBox.Canvas.FillRect(Rect(0, 0, paintBox.Width, paintBox.Height));
+
+    qrmgr := TQrManager.Create;
+    qrBmp := qrmgr.createQrcode(FStringList.Strings[strtoint(FStrRecidueList.Strings[0])]);
+
+    if (paintBox.Width < paintBox.Height) then
+    begin
+      scale := paintBox.Width / qrBmp.Width;
+    end
+    else
+    begin
+      scale := paintBox.Height / qrBmp.Height;
+    end;
+    paintBox.Canvas.StretchDraw(Rect(0, 0, Trunc(qrBmp.Width * scale),
+      Trunc(qrBmp.Height * scale)), qrBmp);
+    paintBox.Repaint;
+    qrBmp.Free;
+        qrmgr.Free;
+end;
+
 procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FOpened := True;
@@ -133,6 +178,7 @@ begin
   FStrRecidueList := TStringList.Create;
   FOpened := False;
   Application.OnIdle := applicationOnIdle;
+
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -152,10 +198,10 @@ procedure TForm1.FormMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if (Button=TMouseButton.mbRight) then begin
-    Memo1.Lines.Add('left=' + IntToStr(ClientToScreen(Point(x, y)).X)
-       + '; top=' + IntToStr(ClientToScreen(Point(x, y)).Y)
-       + '; right=' + IntToStr(ClientToScreen(Point(x, y)).X + PaintBox1.Width + 5)
-       + '; bottom=' + IntToStr(ClientToScreen(Point(x, y)).Y + PaintBox1.Height + 5));
+    Memo1.Lines.Add('left=' + IntToStr(ClientToScreen(Point(x, y)).X+4)
+       + '; top=' + IntToStr(ClientToScreen(Point(x, y)).Y+4)
+       + '; right=' + IntToStr(ClientToScreen(Point(x, y)).X + PaintBox1.Width)
+       + '; bottom=' + IntToStr(ClientToScreen(Point(x, y)).Y + PaintBox1.Height));
   end;
 end;
 
@@ -171,17 +217,18 @@ end;
 function TForm1.getStringList(aText: string): TStringList;
 var
   s: string;
-  i, cnt, total: Integer;
+  i, cnt, total, page: Integer;
   c: Char;
 begin
   s := '';
   Result := TStringList.Create;
+  page := StrToInt(edtQrPage.Text);
   cnt := 0;
   for c in aText do
   begin
     s := s + c;
     Inc(cnt);
-    if cnt = 1024 then
+    if cnt = page then
     begin
       cnt := 0;
       Result.Add(IntToStr(Result.Count) + '$$$$' + s);
@@ -199,6 +246,13 @@ end;
 procedure TForm1.OnQrCreateProgress(Sender: TObject; AProgress: Integer);
 begin
   ProgressBar1.Position := AProgress;
+//  Application.ProcessMessages;
+end;
+
+procedure TForm1.OnQrCreateCostTime(Sender: TObject; AIndex, ACostTime: Integer);
+begin
+  Memo1.Lines.Add('qrcode index=' + IntToStr(AIndex)
+          + '; cost time=' + IntToStr(ACostTime));
   Application.ProcessMessages;
 end;
 
@@ -254,7 +308,7 @@ begin
     end;
     paintBox.Canvas.StretchDraw(Rect(0, 0, Trunc(qrBmp.Width * scale),
       Trunc(qrBmp.Height * scale)), qrBmp);
-    Sleep(20);
+    Sleep(Trunc(1000/strtoint(edtFps.Text)));
     Application.ProcessMessages;
   end;
 
